@@ -1,0 +1,15 @@
+{
+    "name": "patri/mvc-framework",
+    "authors": [
+        {
+            "name": "Patrik Jakab",
+            "email": "patrikjak@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
