@@ -23,7 +23,7 @@ class User extends DbModel
         return 'users';
     }
 
-    public function save()
+    public function save(): bool
     {
         $this->status = self::STATUS_INACTIVE;
         $this->password = password_hash($this->password, PASSWORD_DEFAULT);
@@ -34,7 +34,7 @@ class User extends DbModel
     {
         return [
             "name" => [self::RULE_REQUIRED],
-            "email" => [self::RULE_REQUIRED, self::RULE_EMAIL],
+            "email" => [self::RULE_REQUIRED, self::RULE_EMAIL, [self::RULE_UNIQUE, 'class' => self::class]],
             "password" => [self::RULE_REQUIRED, [self::RULE_MIN, 'min' => 8], [self::RULE_MAX, 'max' => 64]],
             "passwordConfirm" => [self::RULE_REQUIRED, [self::RULE_MATCH, 'match' => 'password']],
         ];
