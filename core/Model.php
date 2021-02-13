@@ -36,20 +36,20 @@ abstract class Model
                     $rule_name = $rule[0];
                 }
                 if ($rule_name === self::RULE_REQUIRED && !$value) {
-                    $this->addError($attribute, self::RULE_REQUIRED);
+                    $this->add_error_for_rule($attribute, self::RULE_REQUIRED);
                 }
                 if ($rule_name === self::RULE_EMAIL && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $this->addError($attribute, self::RULE_EMAIL);
+                    $this->add_error_for_rule($attribute, self::RULE_EMAIL);
                 }
                 if ($rule_name === self::RULE_MIN && strlen($value) < $rule['min']) {
-                    $this->addError($attribute, self::RULE_MIN, $rule);
+                    $this->add_error_for_rule($attribute, self::RULE_MIN, $rule);
                 }
                 if ($rule_name === self::RULE_MAX && strlen($value) > $rule['max']) {
-                    $this->addError($attribute, self::RULE_MAX, $rule);
+                    $this->add_error_for_rule($attribute, self::RULE_MAX, $rule);
                 }
                 if ($rule_name === self::RULE_MATCH && $value !== $this->{$rule['match']}) {
                     $rule['match'] = $this->getLabel($rule['match']);
-                    $this->addError($attribute, self::RULE_MATCH, $rule);
+                    $this->add_error_for_rule($attribute, self::RULE_MATCH, $rule);
                 }
                 if ($rule_name === self::RULE_UNIQUE) {
                     $class_name = $rule['class'];
@@ -60,7 +60,7 @@ abstract class Model
                     $stmt->execute();
                     $record = $stmt->fetchObject();
                     if ($record) {
-                        $this->addError($attribute, self::RULE_UNIQUE, ['field' => $this->getLabel($attribute)]);
+                        $this->add_error_for_rule($attribute, self::RULE_UNIQUE, ['field' => $this->getLabel($attribute)]);
                     }
                 }
             }
@@ -69,12 +69,17 @@ abstract class Model
         return empty($this->errors);
     }
 
-    public function addError(string $attribute, string $rule, $params = [])
+    private function add_error_for_rule(string $attribute, string $rule, array $params = [])
     {
         $message = $this->errorMessages()[$rule] ?? "";
         foreach ($params as $key => $value) {
             $message = str_replace("{{$key}}", $value, $message);
         }
+        $this->errors[$attribute][] = $message;
+    }
+
+    public function add_error(string $attribute, string $message)
+    {
         $this->errors[$attribute][] = $message;
     }
 

@@ -1,13 +1,15 @@
-<h1>Login</h1>
+<?php
 
-<form action="" method="POST">
-    <div class="form-group">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email">
-    </div>
-    <div class="form-group">
-        <label class="form-check-label" for="body">Body</label>
-        <textarea name="body" class="form-control" id="body"></textarea>
-    </div>
+use app\core\form\Form;
+use app\models\User;
+
+/* @var $model User */
+
+?>
+<h1>LOGIN</h1>
+
+<?php $form = Form::begin('', 'POST'); ?>
+    <?= $form->field($model, 'email'); ?>
+    <?= $form->field($model, 'password')->passwordField(); ?>
     <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<?= Form::end(); ?>
