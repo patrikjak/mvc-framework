@@ -9,10 +9,11 @@ class Application
     public static string $ROOT_DIR;
     public static Application $app;
     public string $user_class;
+    public string $layout = 'main';
     public Router $router;
     public Request $request;
     public Response $response;
-    public Controller $controller;
+    public ?Controller $controller = null;
     public Database $db;
     public Session $session;
     public $user;
@@ -61,7 +62,15 @@ class Application
 
     public function run()
     {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        }
+        catch (\Exception $exception) {
+            $this->response->set_status_code($exception->getCode());
+            echo $this->router->renderView('/errors/_error', [
+                'exception' => $exception
+            ]);
+        }
     }
 
     public function login(DbModel $user)

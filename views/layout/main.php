@@ -29,6 +29,9 @@ use app\core\Application;
         <li class="nav-item">
             <a class="nav-link" href="/logout"><?= Application::$app->user->getName(); ?> - Log out</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+        </li>
     <?php endif; ?>
 </ul>
 
