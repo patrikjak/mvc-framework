@@ -5,8 +5,9 @@ namespace app\models;
 
 
 use app\core\DbModel;
+use app\core\UserModel;
 
-class User extends DbModel
+class User extends UserModel
 {
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -18,12 +19,12 @@ class User extends DbModel
     public string $password = '';
     public string $passwordConfirm = '';
 
-    public function table_name(): string
+    public function tableName(): string
     {
         return 'users';
     }
 
-    public function primary_key(): string
+    public function primaryKey(): string
     {
         return 'id';
     }
@@ -58,5 +59,10 @@ class User extends DbModel
             'password' => 'Password',
             'passwordConfirm' => 'Confirm Password'
         ];
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

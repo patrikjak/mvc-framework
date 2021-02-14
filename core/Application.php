@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\models\User;
+
 class Application
 {
     public static string $ROOT_DIR;
@@ -13,7 +15,12 @@ class Application
     public Controller $controller;
     public Database $db;
     public Session $session;
-    public  $user;
+    public $user;
+
+    public static function isGuest(): bool
+    {
+        return !self::$app->user;
+    }
 
     /**
      * @return Controller
@@ -44,8 +51,8 @@ class Application
 
         $primary_value = $this->session->get('user');
         if ($primary_value) {
-            $primary_key = $this->user_class::primary_key();
-            $this->user = $this->user_class::find_one([$primary_key => $primary_value]);
+            $primary_key = $this->user_class::primaryKey();
+            $this->user = $this->user_class::findOne([$primary_key => $primary_value]);
         }
         else {
             $this->user = null;
@@ -60,7 +67,7 @@ class Application
     public function login(DbModel $user)
     {
         $this->user = $user;
-        $primary_key = $user->primary_key();
+        $primary_key = $user->primaryKey();
         $primary_value = $user->{$primary_key};
         $this->session->set('user', $primary_value);
         return true;

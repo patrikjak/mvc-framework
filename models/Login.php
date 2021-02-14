@@ -31,7 +31,7 @@ class Login extends Model
 
     public function login()
     {
-        $user = (new User)->find_one(['email' => $this->email]);
+        $user = (new User)->findOne(['email' => $this->email]);
         if (!$user) {
             $this->add_error('email', 'User with this email does not exists');
             return false;
