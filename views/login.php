@@ -6,7 +6,7 @@ use app\models\User;
 /* @var $model User */
 
 ?>
-<h1>LOGIN</h1>
+<h1>Login</h1>
 
 <?php $form = Form::begin('', 'POST'); ?>
     <?= $form->field($model, 'email'); ?>

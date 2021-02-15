@@ -16,6 +16,7 @@ class Application
     public ?Controller $controller = null;
     public Database $db;
     public Session $session;
+    public View $view;
     public $user;
 
     public static function isGuest(): bool
@@ -49,6 +50,7 @@ class Application
         $this->db = new Database($config['db']);
         $this->user_class = $config['user_class'];
         $this->session = new Session();
+        $this->view = new View();
 
         $primary_value = $this->session->get('user');
         if ($primary_value) {
@@ -67,7 +69,7 @@ class Application
         }
         catch (\Exception $exception) {
             $this->response->set_status_code($exception->getCode());
-            echo $this->router->renderView('/errors/_error', [
+            echo $this->view->renderView('/errors/_error', [
                 'exception' => $exception
             ]);
         }

@@ -1,3 +1,10 @@
+<?php
+/* @var View $this */
+
+use app\core\View;
+
+$this->title = 'Contact - PHP MVC framework'
+?>
 <h1>Contact me</h1>
 
 <form action="" method="POST">
