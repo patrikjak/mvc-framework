@@ -1,20 +1,20 @@
 <?php
-/* @var View $this */
+/* @var View $this
+ * @var ContactFrom $model
+ */
 
+use app\core\form\Form;
+use app\core\form\TextareaField;
 use app\core\View;
+use app\models\ContactFrom;
 
 $this->title = 'Contact - PHP MVC framework'
 ?>
 <h1>Contact me</h1>
 
-<form action="" method="POST">
-    <div class="form-group">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email">
-    </div>
-    <div class="form-group">
-        <label class="form-check-label" for="body">Body</label>
-        <textarea name="body" class="form-control" id="body"></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<?php $form = Form::begin('', 'POST') ?>
+<?= $form->field($model, 'subject') ?>
+<?= $form->field($model, 'email') ?>
+<?= new TextareaField($model, 'body') ?>
+<button type="submit" class="btn btn-primary">Submit</button>
+<?php Form::end(); ?>
