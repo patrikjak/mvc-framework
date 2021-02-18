@@ -19,6 +19,11 @@ class Application
     public View $view;
     public $user;
 
+    /**
+     * Check if user is guest
+     *
+     * @return bool
+     */
     public static function isGuest(): bool
     {
         return !self::$app->user;
@@ -40,6 +45,11 @@ class Application
         $this->controller = $controller;
     }
 
+    /**
+     * Application constructor.
+     * @param $rootPath
+     * @param array $config
+     */
     public function __construct($rootPath, array $config)
     {
         self::$ROOT_DIR = $rootPath;
@@ -62,6 +72,9 @@ class Application
         }
     }
 
+    /**
+     * Run the app, solve actual route, if route not exists, render error page
+     */
     public function run()
     {
         try {
@@ -75,6 +88,12 @@ class Application
         }
     }
 
+    /**
+     * Save logged user to session
+     *
+     * @param DbModel $user
+     * @return bool
+     */
     public function login(DbModel $user)
     {
         $this->user = $user;
@@ -84,6 +103,10 @@ class Application
         return true;
     }
 
+    /**
+     * Logout current user and destroy session
+     *
+     */
     public function logout()
     {
         $this->user = null;

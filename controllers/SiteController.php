@@ -10,6 +10,11 @@ use app\models\ContactFrom;
 
 class SiteController extends Controller
 {
+    /**
+     * Render home page with parameters
+     *
+     * @return string|string[]
+     */
     public function home()
     {
         $params = [
@@ -17,6 +22,15 @@ class SiteController extends Controller
         ];
         return $this->render('home', $params);
     }
+
+    /**
+     * Render contact page
+     * If request is post "send email" and set flash message
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return string|string[]|void
+     */
     public function contact(Request $request, Response $response)
     {
         $contact = new ContactFrom();

@@ -21,6 +21,11 @@ class AuthMiddleware extends BaseMiddleware
     }
 
 
+    /**
+     * Throw exception if user is not logged in and want to access to some page
+     *
+     * @throws ForbiddenException
+     */
     public function execute()
     {
         if (Application::isGuest()) {
