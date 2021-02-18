@@ -23,6 +23,9 @@ class Database
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    /**
+     * Apply migration if there are any, if not log message with info
+     */
     public function applyMigration()
     {
         $this->createMigrationsTable();
@@ -34,6 +37,7 @@ class Database
         $new_migrations = [];
 
         foreach ($to_apply_migrations as $migration) {
+            // skip unwanted folders
             if ($migration === '.' || $migration === '..') {
                 continue;
             }
@@ -54,6 +58,10 @@ class Database
         }
     }
 
+    /**
+     * Create migration table
+     *
+     */
     public function createMigrationsTable()
     {
         $this->pdo->exec(
@@ -66,6 +74,11 @@ class Database
         );
     }
 
+    /**
+     * Check for existing migrations
+     *
+     * @return array
+     */
     public function get_applied_migrations(): array
     {
         $stmt = $this->pdo->prepare("SELECT migration FROM migrations");
@@ -74,6 +87,11 @@ class Database
         return $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
     }
 
+    /**
+     * Insert into migrations table new migrations
+     *
+     * @param array $migrations
+     */
     public function saveMigration(array $migrations)
     {
         $values = implode(',', array_map(fn($m) => "('$m')", $migrations));
@@ -82,6 +100,12 @@ class Database
         $stmt->execute();
     }
 
+    /**
+     * Log message
+     *
+     * @param $message
+     * @return string
+     */
     protected function log($message): string
     {
         date_default_timezone_set('Europe/Bratislava');
